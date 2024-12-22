@@ -5,6 +5,7 @@ from enum import Enum
 
 import numpy as np
 import pandas as pd
+from pandas.core.groupby import DataFrameGroupBy, SeriesGroupBy
 
 from sklearn.linear_model import LinearRegression
 
@@ -30,7 +31,7 @@ class SeasonEnum(str, Enum):
     winter = 'winter'
 
 
-def detect_outliers(group):
+def detect_outliers(group: pd.api.typing.DataFrameGroupBy) -> DataFrameGroupBy | SeriesGroupBy:
     rolling = group['temperature'].rolling(window=WINDOW_SIZE, center=True, min_periods=1)
     rolling_mean = rolling.mean()
     rolling_std = rolling.std()
